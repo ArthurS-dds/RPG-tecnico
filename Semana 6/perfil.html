@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: radial-gradient(ellipse at bottom, #1b263b 0%, #0d1b2a 50%), 
+                        radial-gradient(ellipse at top, #415a77 0%, transparent 50%), 
+                        linear-gradient(45deg, #0d1b2a 0%, #1b263b 100%);
+            color: #e0e1dd;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 40px;
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(2px 2px at 20px 30px, #778da9, transparent),
+                            radial-gradient(2px 2px at 40px 70px, rgba(119, 141, 169, 0.8), transparent),
+                            radial-gradient(1px 1px at 90px 40px, #778da9, transparent),
+                            radial-gradient(1px 1px at 130px 80px, rgba(119, 141, 169, 0.6), transparent),
+                            radial-gradient(2px 2px at 160px 30px, #778da9, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: sparkle 4s linear infinite;
+            opacity: 0.6;
+        }
+        @keyframes sparkle {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-100px); }
+        }
+        .container {
+            background-color: rgba(27, 38, 59, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #415a77;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            margin: 0 auto;
+        }
+        h1 {
+            color: #778da9;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(119, 141, 169, 0.5);
+        }
+        h2 {
+            color: #778da9;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px rgba(119, 141, 169, 0.3);
+        }
+        h3 {
+            color: #e0e1dd;
+            font-size: 1.2em;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .photo-section {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 60px; /* Increased space below Personagem */
+        }
+        .photo-box {
+            background-color: #0d1b2a;
+            border: 3px solid #415a77;
+            border-radius: 12px;
+            padding: 15px;
+            width: 264px;
+            height: 264px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .photo-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(65, 90, 119, 0.1) 50%, transparent 70%);
+            pointer-events: none;
+        }
+        .photo-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(65, 90, 119, 0.8);
+        }
+        .photo-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            z-index: 2;
+        }
+        .photo-box p {
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #e0e1dd;
+            font-weight: 700;
+            z-index: 2;
+        }
+        .medals-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px;
+            background-color: #0d1b2a;
+            border-radius: 10px;
+            border: 1px solid #415a77;
+            margin-bottom: 40px;
+        }
+        .cards-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+            background-color: #0d1b2a;
+            border-radius: 10px;
+            border: 1px solid #415a77;
+            margin-bottom: 40px;
+        }
+        .levels-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+            background-color: #0d1b2a;
+            border-radius: 10px;
+            border: 1px solid #415a77;
+            margin-bottom: 40px;
+        }
+        .medal, .card {
+            background-color: #1b263b;
+            border: 2px solid #778da9;
+            border-radius: 10px;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        .medal::before, .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(119, 141, 169, 0.2) 0%, transparent 70%);
+            transform: rotate(45deg);
+        }
+        .medal:hover, .card:hover {
+            transform: scale(1.1);
+        }
+        .medal img, .card img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            z-index: 2;
+        }
+        .card p {
+            margin: 0;
+            font-size: 1.2em;
+            color: #e0e1dd;
+            font-weight: 700;
+            z-index: 2;
+        }
+        .card-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #1b263b;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #415a77;
+        }
+        .level-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #1b263b;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #778da9;
+            transition: transform 0.3s ease;
+        }
+        .level-container:hover {
+            transform: scale(1.05);
+        }
+        .level-placeholder {
+            min-width: 80px;
+            height: 30px;
+            line-height: 30px;
+            background-color: #0d1b2a;
+            color: #e0e1dd;
+            border: 1px solid #778da9;
+            border-radius: 5px;
+            font-size: 1em;
+            text-align: center;
+            font-weight: 700;
+            padding: 0 10px;
+            white-space: nowrap;
+            display: inline-block;
+        }
+        .damage-placeholder {
+            min-width: 80px;
+            height: 30px;
+            line-height: 30px;
+            background-color: #0d1b2a;
+            color: #e0e1dd;
+            border: 1px solid #778da9;
+            border-radius: 5px;
+            font-size: 1em;
+            text-align: center;
+            font-weight: 700;
+            padding: 0 10px;
+            white-space: nowrap;
+            display: inline-block;
+        }
+        @media (max-width: 600px) {
+            .damage-placeholder, .level-placeholder {
+                max-width: 150px; /* Prevent overflow on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Meu Perfil</h1>
+        
+        <h2>Personagem e Arma Assinatura</h2>
+        <div class="photo-section">
+            <div class="photo-box">
+                <img src="boneco_arthur.png" alt="Personagem">
+                <p>Personagem</p>
+            </div>
+            <div class="photo-box">
+                <img src="arma_arthur.png" alt="Arma">
+                <p>Arma</p>
+            </div>
+        </div>
+
+        <h2>Níveis</h2>
+        <div class="levels-section">
+            <div class="level-container">
+                <h3>Artificer</h3>
+                <span class="level-placeholder">1</span>
+            </div>
+            <div class="level-container">
+                <h3>Cavaleiro</h3>
+                <span class="level-placeholder">1</span>
+            </div>
+            <div class="level-container">
+                <h3>Herói</h3>
+                <span class="level-placeholder">0</span>
+            </div>
+            <div class="level-container">
+                <h3>Mago</h3>
+                <span class="level-placeholder">3</span>
+            </div>
+            <div class="level-container">
+                <h3>Mercador</h3>
+                <span class="level-placeholder">1</span>
+            </div>
+        </div>
+
+        <h2>Medalhas</h2>
+        <div class="medals-section">
+            <div class="medal">
+                <img src="espantalho.png" alt="Medalha Espantalho">
+            </div>
+            <div class="medal">
+                <img src="goblin.png" alt="Medalha Goblin">
+            </div>
+            <div class="medal">
+                <img src="aracne.png" alt="Medalha Aracne">
+            </div>
+            <div class="medal">
+                <img src="arena.png" alt="Medalha Arena">
+            </div>
+            <div class="medal">
+                <img src="tritão.png" alt="Medalha Tritão">
+            </div>
+            <div class="medal">
+                <img src="andarilho.png" alt="Medalha Andarilho">
+            </div>
+            <div class="medal">
+                <img src="arqui.png" alt="Medalha Alquimista">
+            </div>
+        </div>
+
+        <h2>Cartas</h2>
+        <div class="cards-section">
+            <div class="card-container">
+                <div class="card">
+                    <p>A</p>
+                </div>
+                <span class="damage-placeholder">0 de dano.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>2</p>
+                </div>
+                <span class="damage-placeholder">2 de dano + nível do mago.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>3</p>
+                </div>
+                <span class="damage-placeholder">3 de dano + nível do mago.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>4</p>
+                </div>
+                <span class="damage-placeholder">12 de dano + nível do mago.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>5</p>
+                </div>
+                <span class="damage-placeholder">3 de dano + nível do mago.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>6</p>
+                </div>
+                <span class="damage-placeholder">12 de dano + nível do mago.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>7</p>
+                </div>
+                <span class="damage-placeholder">3 de dano + nível do mago.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>8</p>
+                </div>
+                <span class="damage-placeholder">2 de dano + nível do mago.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>9</p>
+                </div>
+                <span class="damage-placeholder">0 de dano.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>10</p>
+                </div>
+                <span class="damage-placeholder">2 de dano + nível do mago.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>K</p>
+                </div>
+                <span class="damage-placeholder">0 de dano.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>Q</p>
+                </div>
+                <span class="damage-placeholder">3 de cura 1ª vez, 10 de cura 2ª vez.</span>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <p>J</p>
+                </div>
+                <span class="damage-placeholder">0 de dano.</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
